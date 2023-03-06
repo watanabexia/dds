@@ -844,9 +844,9 @@ def evaluate(max_fid, map_dd, map_gt, gt_confid_thresh, mpeg_confid_thresh,
     fn = sum(fn_list)
     count = sum(count_list)
     return (tp, fp, fn, count,
-            round(tp/(tp+fp), 3),
-            round(tp/(tp+fn), 3),
-            round((2.0*tp/(2.0*tp+fp+fn)), 3))
+            round((tp/(tp+fp) if (tp+fp != 0) else -1), 3),
+            round((tp/(tp+fn) if (tp+fn != 0) else -1), 3),
+            round((2.0*tp/(2.0*tp+fp+fn) if (2.0*tp+fp+fn != 0) else -1), 3))
 
 def evaluate_partial(min_fid, max_fid, map_dd, map_gt, gt_confid_thresh, mpeg_confid_thresh,
              max_area_thresh_gt, max_area_thresh_mpeg, iou_thresh=0.3):
@@ -903,9 +903,9 @@ def evaluate_partial(min_fid, max_fid, map_dd, map_gt, gt_confid_thresh, mpeg_co
     fn = sum(fn_list)
     count = sum(count_list)
     return (tp, fp, fn, count,
-            round(tp/(tp+fp), 3),
-            round(tp/(tp+fn), 3),
-            round((2.0*tp/(2.0*tp+fp+fn)), 3))
+            round((tp/(tp+fp) if (tp+fp != 0) else -1), 3),
+            round((tp/(tp+fn) if (tp+fn != 0) else -1), 3),
+            round((2.0*tp/(2.0*tp+fp+fn) if (2.0*tp+fp+fn != 0) else -1), 3))
 
 
 def write_stats_txt(fname, vid_name, config, f1, stats,

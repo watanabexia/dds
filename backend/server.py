@@ -135,6 +135,10 @@ class Server:
                          f"{self.config.high_threshold}")
         # Extract relevant results
         for fid in range(start_fid, end_fid):
+
+            if fid not in results_dict:
+                results_dict[fid] = []
+                
             fid_results = results_dict[fid]
             for single_result in fid_results:
                 single_result.origin = "low-res"
@@ -229,17 +233,31 @@ class Server:
         results, rpn = self.perform_detection(
             "server_temp", self.config.low_resolution, fnames)
 
+        #Debug
+        # self.logger.warning(f"DEBUG detection results:\n {results.regions_dict}\n {rpn.regions_dict}")
+        # self.logger.warning(f"{results.regions_dict[3][0]}")
+
         batch_results = Results()
         batch_results.combine_results(
             results, self.config.intersection_threshold)
+        
+        #Debug
+        # self.logger.warning(f"DEBUG feed in:\n {batch_results.regions_dict}\n")
 
         # need to merge this because all previous experiments assumed
         # that low (mpeg) results are already merged
         batch_results = merge_boxes_in_results(
             batch_results.regions_dict, 0.3, 0.3)
+        
+        #Debug
+        # self.logger.warning(f"DEBUG feed in:\n {batch_results.regions_dict}\n")
 
         batch_results.combine_results(
             rpn, self.config.intersection_threshold)
+            
+        
+        #Debug
+        # self.logger.warning(f"DEBUG feed in:\n {batch_results.regions_dict}\n")
 
         detections, regions_to_query = self.simulate_low_query(
             start_fid, end_fid, "server_temp", batch_results.regions_dict,
