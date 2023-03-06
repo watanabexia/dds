@@ -848,6 +848,65 @@ def evaluate(max_fid, map_dd, map_gt, gt_confid_thresh, mpeg_confid_thresh,
             round(tp/(tp+fn), 3),
             round((2.0*tp/(2.0*tp+fp+fn)), 3))
 
+def evaluate_partial(min_fid, max_fid, map_dd, map_gt, gt_confid_thresh, mpeg_confid_thresh,
+             max_area_thresh_gt, max_area_thresh_mpeg, iou_thresh=0.3):
+    """ Modified from evaluate(),  
+    the only difference here is we only look at min_fid to max_fid.
+    """
+    tp_list = []
+    fp_list = []
+    fn_list = []
+    count_list = []
+    for fid in range(min_fid, max_fid+1):
+        bboxes_dd = map_dd[fid]
+        bboxes_gt = map_gt[fid]
+        bboxes_dd = filter_results(
+            bboxes_dd, gt_flag=False, gt_confid_thresh=gt_confid_thresh,
+            mpeg_confid_thresh=mpeg_confid_thresh,
+            max_area_thresh_gt=max_area_thresh_gt,
+            max_area_thresh_mpeg=max_area_thresh_mpeg)
+        bboxes_gt = filter_results(
+            bboxes_gt, gt_flag=True, gt_confid_thresh=gt_confid_thresh,
+            mpeg_confid_thresh=mpeg_confid_thresh,
+            max_area_thresh_gt=max_area_thresh_gt,
+            max_area_thresh_mpeg=max_area_thresh_mpeg)
+        tp = 0
+        fp = 0
+        fn = 0
+        count = 0
+        for b_dd in bboxes_dd:
+            found = False
+            for b_gt in bboxes_gt:
+                if iou(b_dd, b_gt) >= iou_thresh:
+                    found = True
+                    break
+            if found:
+                tp += 1
+            else:
+                fp += 1
+        for b_gt in bboxes_gt:
+            found = False
+            for b_dd in bboxes_dd:
+                if iou(b_dd, b_gt) >= iou_thresh:
+                    found = True
+                    break
+            if not found:
+                fn += 1
+            else:
+                count += 1
+        tp_list.append(tp)
+        fp_list.append(fp)
+        fn_list.append(fn)
+        count_list.append(count)
+    tp = sum(tp_list)
+    fp = sum(fp_list)
+    fn = sum(fn_list)
+    count = sum(count_list)
+    return (tp, fp, fn, count,
+            round(tp/(tp+fp), 3),
+            round(tp/(tp+fn), 3),
+            round((2.0*tp/(2.0*tp+fp+fn)), 3))
+
 
 def write_stats_txt(fname, vid_name, config, f1, stats,
                     bw, frames_count, first_bandwidth_limit, mode):

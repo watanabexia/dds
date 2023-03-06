@@ -4,11 +4,13 @@ import subprocess
 # base_profile_path = 'results_archive/01-02-2-rene/profile.csv'
 target_configuration_path = 'configuration.yml'
 
+dataset_name = 'rene'
+
 profile_folder_name = 'profile'
-target_bandwidth_limit_path = '../dataset/rene/profile/bandwidthLimit.yml'
+target_bandwidth_limit_path = f'../dataset/{dataset_name}/profile/bandwidthLimit.yml'
 
 profile_folder_name_separated = 'profile-separated'
-target_bandwidth_limit_path_separated = '../dataset/rene/profile-separated/bandwidthLimit.yml'
+target_bandwidth_limit_path_separated = f'../dataset/{dataset_name}/profile-separated/bandwidthLimit.yml'
 
 # profile = pd.read_csv(base_profile_path)
 

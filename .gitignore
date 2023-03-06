@@ -127,6 +127,8 @@ dmypy.json
 
 # do not commit private dataset
 dataset/rene*
+dataset/uav1*
+dataset/uav2*
 
 # do not commit DNN model
 workspace/frozen_inference_graph.pb
@@ -142,3 +144,6 @@ workspace/results_archive
 
 # do not commit deprecated tools
 workspace/deprecated
+
+# do not commit server tem files
+server_temp*
