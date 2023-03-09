@@ -2,7 +2,7 @@ import shutil
 import os
 
 dataset = "rene"
-segmentLength = 25
+segmentLength = 5
 
 number_of_frames = len([f for f in os.listdir(dataset + "/src/") if ".png" in f])
 

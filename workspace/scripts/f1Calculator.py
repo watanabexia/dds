@@ -2,6 +2,10 @@
 Using the result to calculate f1 score of a segment of the video.
 """
 
+import sys
+
+sys.path.append("/home/cc/dds")
+
 from dds_utils import evaluate_partial, read_results_dict
 
 class calculator:
@@ -9,16 +13,16 @@ class calculator:
     def __init__(self) -> None:
         self.profile_folder_path = "/home/cc/dds/workspace"
         self.real_video_name = "rene"
-        self.low_resolution = 0.8
-        self.high_resolution = 1
-        self.low_qp = 34
-        self.high_qp = 28
-        self.rpn_enlarge_ratio = 0
+        self.low_resolution = 0.5
+        self.high_resolution = 0.8
+        self.low_qp = 40
+        self.high_qp = 30
+        self.rpn_enlarge_ratio = 0.0
 
-        self.low_threshold = 0.5
+        self.low_threshold = 0.3
 
-        self.min_fid = 0
-        self.max_fid = 4
+        self.min_fid = 5
+        self.max_fid = 9
 
     def get_f1_partial(self):
         results = read_results_dict(f"{self.profile_folder_path}/results/{self.real_video_name}_dds_{self.low_resolution}_{self.high_resolution}_{self.low_qp}_{self.high_qp}_{self.rpn_enlarge_ratio}_twosides_batch_5_0.5_0.8_0.4")
