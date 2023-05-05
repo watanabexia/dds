@@ -129,6 +129,8 @@ dmypy.json
 dataset/rene*
 dataset/uav-1*
 dataset/uav-2*
+dataset/roppongi
+dataset/coldwater
 
 # do not commit DNN model
 workspace/frozen_inference_graph.pb
@@ -141,9 +143,13 @@ workspace/results
 workspace/debugging
 workspace/stats
 workspace/results_archive
+workspace/scripts/profile.csv
 
 # do not commit deprecated tools
 workspace/deprecated
 
 # do not commit server tem files
 server_temp*
+
+# graph results
+output.png

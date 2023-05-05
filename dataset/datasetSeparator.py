@@ -1,7 +1,7 @@
 import shutil
 import os
 
-dataset = "rene"
+dataset = "uav-1"
 segmentLength = 5
 
 number_of_frames = len([f for f in os.listdir(dataset + "/src/") if ".png" in f])
